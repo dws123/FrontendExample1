@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Memory Grid Game</title>
+
+		<style>
+			#grid {
+				display: inline-block;
+				height: auto;
+				margin-left: auto;
+				margin-right: auto;
+				background-color: yellow;
+				box-shadow: 10px 10px 5px #888888;
+				/*animation:spin 4s linear infinite;*/
+			}
+
+			/*@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }*/
+
+			table, td, th {
+				border: 1px solid black;
+			}
+
+			td {
+				padding: 20px;
+			}
+
+			td.chosen {
+				background-color: green;
+				transition: background 2.0s linear 2s; 
+			}
+
+			.selected {
+				background-color: blue;
+				transition: background 1.0s linear 2s; 
+			}
+		</style>
+
+		<script src="gridModel.js" type="text/javascript"></script>
+		<script src="gameView.js" type="text/javascript"></script>
+		<script src="gameController.js" type="text/javascript"></script>
+
+
+		
+
+	</head>
+	<body>
+		<h1>Memory Game</h1>
+		
+		<nav>
+			<button onclick="start()">Start</button>
+			<button onclick="reveal()">Reveal</button>
+		</nav>
+		
+		<div id="grid" align="center">
+
+		</div>
+
+		<script>
+			var myDiv = document.getElementById('grid');
+			var game = new GameController( myDiv );
+			
+			function start() {
+
+				game.start();
+
+				var tbl = document.getElementById("grid").getElementsByTagName("table")[0];
+				
+				gridClickHandler= function(e) {
+					var cell = e.target || window.event.srcElement;
+					cell.setAttribute("class", "selected");
+				
+					if (cell.cellIndex >= 0) {
+						var xy = (cell.parentNode.rowIndex * game.rows ) + cell.cellIndex + 1;
+						game.makeGuess( xy );
+					}
+				};
+
+				if (tbl.addEventListener) {
+					tbl.addEventListener("click", gridClickHandler, false);
+				} else if (tbl.attachEvent) {
+					tbl.attachEvent("onclick", gridClickHandler);
+				}
+			}
+			
+			function reveal(){
+				game.reveal();
+			}
+
+		</script>
+	</body>
+</html>
