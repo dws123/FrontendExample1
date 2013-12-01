@@ -34,10 +34,12 @@ GameView.prototype.showGrid = function(grid) {
 GameView.prototype.toggleChosen = function(grid, revealChosen) {
 
 	for (var i = 0, keys = Object.keys(grid.gameChosenCells), ii = keys.length; i < ii; i++) {
-		console.log('key : ' + keys[i] + ' val : ' + grid.gameChosenCells[keys[i]]);
+		
 		var cellId = "cell" + keys[i];
-		if (revealChosen)
+		if (revealChosen) {
 			document.getElementById(cellId).className = "chosen";
+			console.log('key : ' + keys[i] + ' val : ' + grid.gameChosenCells[keys[i]]);
+		}
 		else
 			document.getElementById(cellId).className = "default";
 	}

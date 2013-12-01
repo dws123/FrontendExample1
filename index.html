@@ -7,16 +7,16 @@
 
 		<style>
 		
-			.centered {
+			section, nav, h1 {
 				width:40%;
 				margin: auto;
 			}
 			
 			#grid {
+				display: inline-block;
 				height: auto;
 				width:auto;
 				background-color: yellow;
-				float:left;
 				box-shadow: 10px 10px 5px #888888;
 			}
 			
@@ -26,6 +26,7 @@
 				height:auto;
 				width:150px;
 				float:left;
+				visibility: hidden;
 			}
 			#clock {
 				font-size:40px;
@@ -61,14 +62,17 @@
 			}
 
 			nav {
-				padding: 40px;
+				padding: 10px;
 			}
 
 			div.rotated {
 				transform: rotate(90deg);
 				transition: transform 3s linear 0s;
 			}
-
+			div.norotate {
+				transform: rotate(0deg);
+				transition: transform 0.5s linear 0s;
+			}
 
 
 			/*div.rotated {
@@ -83,33 +87,49 @@
 
 	</head>
 	<body>
+		
+		<br /><br /><br />
 		<h1>Memory Game</h1>
-
+		<br />
+		<section>
+		Object of the game: Remember the chosen cells! You need to click them after the box is rotated.
+		</section>
+		
+		<br />
 		<nav>
 			<button onclick="start()">
-				Start
+				Restart
 			</button>
 		</nav>
 		
-		<section class="centered">
-
-			<div >
-				<div id="grid"></div>
-				<div id="status">Object of the game: Remember the chosen cells! You need to click them after the box is rotated.</div>
-				<div id="clock"></div>
-	
-			</div>
+		<br /><br /><br />
 		
+		<section>
+				<div id="grid"></div>
+		</section>
+		
+		<br /><br /><br />
+		
+		<section>
+			<div >
+				<div id="status"></div>
+				<div id="clock"></div>
+			</div>
 		</section>
 		
 		
 
 		<script>
-			var gridDiv = document.getElementById('grid');
-			var statusDiv = document.getElementById('status');
-			var clockDiv =  document.getElementById('clock');
-			var game = new GameController( gridDiv, statusDiv, clockDiv );
-			game.start();
+			start = function() {
+				var gridDiv = document.getElementById('grid');
+				var statusDiv = document.getElementById('status');
+				var clockDiv =  document.getElementById('clock');
+				
+
+				var game = new GameController( gridDiv, statusDiv, clockDiv );
+				game.start();
+			};
+			start();
 		</script>
 	</body>
 </html>

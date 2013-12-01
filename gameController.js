@@ -2,83 +2,119 @@
  * @author dstallman
  */
 
-function GameController(displayDiv, statusDiv, clockDiv) {
+function GameController(gridDiv, statusDiv, clockDiv) {
 
-	this.rows = 3;
-	this.cols = 3;
-	this.levelSetupTime = 10;
-	this.timeToGuess = 7;
-	this.grid = new GridModel(this.rows, this.cols);
-	this.grid.setup(3);
-	this.statusDiv = statusDiv;
-	this.clockDiv = clockDiv;
+	this.rows = 2;
+	this.cols = 2;
+	this.levelSetupTime = 9;
+	this.timeToGuess = 8;
+	this.grid;
+
 	this.intervalTimer;
 	this.gridClickHandler;
-	this.gameView = new GameView(displayDiv);
+	this.levelOver =false;
+	
+	this.gridDiv = gridDiv;
+	this.statusDiv = statusDiv;
+	this.clockDiv = clockDiv;
+	this.gameView = new GameView( gridDiv );
 
 }
 
 GameController.prototype.makeGuess = function(cellNum) {
 	this.grid.makeGuess(cellNum);
 	if (this.grid.gameOver()) {
-		
-		clearInterval(this.intervalVar);
-		
-		var levelOutcome = "Level over.";
-		
-		if( this.grid.guessesCorrect() )
-			levelOutcome += " YOU WON! :-D";
-		else
-			levelOutcome += " YOU LOST! :-(";
-		
-		this.statusDiv.innerHTML = levelOutcome;
+		this.onLevelResult();
 	}
 };
 
 GameController.prototype.start = function() {
-	this.gameView.showGrid(this.grid, false);
-	this.doLevel(this);
+	this.runNextLevel();
 };
 
 GameController.prototype.toggleChosen = function(show) {
 	this.gameView.toggleChosen(this.grid, show);
 };
 
-GameController.prototype.doLevel = function(game) {
-	
-	var setupMs = game.levelSetupTime * 1000;
+GameController.prototype.onLevelResult = function() {
+	clearInterval(this.intervalVar);
+	this.levelOver=true;
 
+	var levelOutcome = "";
+	var game = this;
+
+	if (this.grid.guessesCorrect()){
+		levelOutcome += " YOU WON! :-D";
+		setTimeout(function() {
+			game.runNextLevel();
+		}, 2000 );
+	}
+	else
+		levelOutcome += " YOU LOST! :-(";
+
+	this.statusDiv.innerHTML = levelOutcome;
+};
+
+GameController.prototype.runNextLevel = function() {
+	
+	this.gridDiv.setAttribute("class", "norotate");
+	this.statusDiv.style.visibility = "hidden";
+	this.clockDiv.style.visibility = "hidden";	
+	this.rows += 1;
+	this.cols += 1;
+	this.grid = new GridModel(this.rows, this.cols);
+	this.grid.setup(3);
+	
+	this.levelSetupTime--;
+	this.timeToGuess--;
+	
+	this.gameView.showGrid(this.grid, false);
+	this.startLevel(this);
+};
+
+GameController.prototype.startLevel = function(game) {
+
+	var totalSetupTime = game.levelSetupTime * 1000;
+	
+	var delayToShowChosen = totalSetupTime * 0.3;
+	var delayToHideChosen = delayToShowChosen + (totalSetupTime * 0.3);
+	var delayToRotate = delayToHideChosen + (totalSetupTime * 0.2);
+	var delayToStartTimer = delayToRotate + (totalSetupTime * 0.2);
+	
 	setTimeout(function() {
 		game.toggleChosen(true);
-	},  setupMs * 0.3);
+	}, delayToShowChosen );
 
 	setTimeout(function() {
 		game.toggleChosen(false);
-	}, setupMs * 0.4);
+	}, delayToHideChosen );
 
 	setTimeout(function() {
 		document.getElementById("grid").className = "rotated";
-	}, setupMs * 0.3);
+	}, delayToRotate );
 
 	setTimeout(function() {
 		game.startGameTimer(game, game.timeToGuess);
-	}, setupMs );
+	}, delayToStartTimer);
+	
 };
 
 GameController.prototype.startGameTimer = function(game, seconds) {
+	
+	game.levelOver=false;
 
 	game.gridClickHandler = function(e) {
+		
 		var cell = e.target || window.event.srcElement;
-		cell.setAttribute("class", "selected");
-
-		if (cell.cellIndex >= 0) {
+		if (!game.levelOver && cell.cellIndex >= 0) {
+			cell.setAttribute("class", "selected");
 			var xy = (cell.parentNode.rowIndex * game.rows ) + cell.cellIndex + 1;
+			console.log('guess : ' + xy );
 			game.makeGuess(xy);
 		}
 	};
 
 	var tbl = document.getElementById("grid").getElementsByTagName("table")[0];
-
 	if (tbl.addEventListener) {
 		tbl.addEventListener("click", game.gridClickHandler, false);
 	} else if (tbl.attachEvent) {
@@ -86,6 +122,7 @@ GameController.prototype.startGameTimer = function(game, seconds) {
 	}
 
 	game.statusDiv.innerHTML = "Now, click on the chosen cells. GO!";
+	game.statusDiv.style.visibility = "visible";
 
 	game.intervalVar = setInterval(function() {
 
@@ -95,7 +132,7 @@ GameController.prototype.startGameTimer = function(game, seconds) {
 
 		if (seconds === 0) {
 			clearInterval(game.intervalVar);
-			game.grid.outcome();
+			game.onLevelResult();
 			return;
 		}
 		if (seconds <= 2) {
