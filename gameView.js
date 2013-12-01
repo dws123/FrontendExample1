@@ -31,9 +31,12 @@ GameView.prototype.showGrid = function( grid ) {
 
 	};
 	
-GameView.prototype.reveal = function( grid ) {
+GameView.prototype.reveal = function( document, grid ) {
 
 		for (var i = 0, keys = Object.keys(grid.gameChosenCells), ii = keys.length; i < ii; i++) {
 		  console.log('key : ' + keys[i] + ' val : ' + grid.gameChosenCells[keys[i]]);
+		  
+		  var cellId = "cell"+  keys[i];
+		  document.getElementById( cellId ).className = "chosen";
 		}
 	};

@@ -5,8 +5,8 @@
 
 function GameController( displayDiv ){
 	
-	this.rows=3;
-	this.cols=3;
+	this.rows=4;
+	this.cols=4;
 	this.grid = new GridModel( this.rows, this.cols );
 	this.grid.setup( 4 );
 	this.gameView = new GameView( displayDiv );
@@ -24,7 +24,7 @@ GameController.prototype.start = function(){
 	this.gameView.showGrid( this.grid, false );
 };
 
-GameController.prototype.reveal = function(){
-	this.gameView.reveal(this.grid);
+GameController.prototype.reveal = function( document ){
+	this.gameView.reveal( document, this.grid );
 };
 
