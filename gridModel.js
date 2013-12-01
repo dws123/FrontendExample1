@@ -34,11 +34,11 @@ function GridModel( rows, columns ){
 
 	};
 	
-	this.outcome = function(){
+	this.guessesCorrect = function(){
 		if ( this.humanCorrectCount === this.gameChosenCellCount )
-			alert( "YOU WON");
+			return true;
 		else 
-			alert( "YOU LOST");
+			return false;
 	};
 	
 }

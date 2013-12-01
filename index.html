@@ -6,17 +6,37 @@
 		<title>Memory Grid Game</title>
 
 		<style>
-			#grid {
-				display: inline-block;
-				height: auto;
-				margin-left: auto;
-				margin-right: auto;
-				background-color: yellow;
-				box-shadow: 10px 10px 5px #888888;
-				
+		
+			.centered {
+				width:40%;
+				margin: auto;
 			}
-
 			
+			#grid {
+				height: auto;
+				width:auto;
+				background-color: yellow;
+				float:left;
+				box-shadow: 10px 10px 5px #888888;
+			}
+			
+			#status {
+				border-style:outset;
+				padding: 20px;
+				height:auto;
+				width:150px;
+				float:left;
+			}
+			#clock {
+				font-size:40px;
+				border-style:outset;
+				padding: 20px;
+				height:auto;
+				width:auto;
+				float:left;
+				background-color: green;
+				visibility: hidden;
+			}
 
 			table, td, th {
 				border: 1px solid black;
@@ -28,89 +48,68 @@
 
 			td.default {
 				background-color: yellow;
-				transition: background 3s linear 0s; 
+				transition: background 3s linear 0s;
 			}
-			
+
 			td.chosen {
 				background-color: green;
-				transition: background 1s linear 0s; 
+				transition: background 1s linear 0s;
 			}
 
 			td.selected {
 				background-color: blue;
 			}
-			
+
 			nav {
 				padding: 40px;
 			}
-			
+
 			div.rotated {
-				transform:rotate(90deg);
+				transform: rotate(90deg);
 				transition: transform 3s linear 0s;
 			}
-			
-			
+
+
+
 			/*div.rotated {
-				animation:spin 4s linear;
-			}
-			@keyframes spin { 100% { transform:rotate(90deg); } }*/
+			 animation:spin 4s linear;
+			 }
+			 @keyframes spin { 100% { transform:rotate(90deg); } }*/
 		</style>
 
 		<script src="gridModel.js" type="text/javascript"></script>
 		<script src="gameView.js" type="text/javascript"></script>
 		<script src="gameController.js" type="text/javascript"></script>
 
-
-		
-
 	</head>
 	<body>
 		<h1>Memory Game</h1>
-		
+
 		<nav>
-			<button onclick="start()">Start</button>
+			<button onclick="start()">
+				Start
+			</button>
 		</nav>
 		
-		<div id="grid" align="center">
+		<section class="centered">
 
-		</div>
+			<div >
+				<div id="grid"></div>
+				<div id="status">Object of the game: Remember the chosen cells! You need to click them after the box is rotated.</div>
+				<div id="clock"></div>
+	
+			</div>
+		
+		</section>
+		
+		
 
 		<script>
-			var myDiv = document.getElementById('grid');
-			var game = new GameController( myDiv );
-			
-			function start() {
-
-				game.start();
-				
-				setTimeout(function(){ game.reveal( document ) },1000);
-				
-				setTimeout(function(){ game.hide( document ) },3000);
-				
-				setTimeout(function(){ document.getElementById("grid").className = "rotated"; },3000);
-				
-				
-
-				var tbl = document.getElementById("grid").getElementsByTagName("table")[0];
-				
-				gridClickHandler= function(e) {
-					var cell = e.target || window.event.srcElement;
-					cell.setAttribute("class", "selected");
-				
-					if (cell.cellIndex >= 0) {
-						var xy = (cell.parentNode.rowIndex * game.rows ) + cell.cellIndex + 1;
-						game.makeGuess( xy );
-					}
-				};
-
-				if (tbl.addEventListener) {
-					tbl.addEventListener("click", gridClickHandler, false);
-				} else if (tbl.attachEvent) {
-					tbl.attachEvent("onclick", gridClickHandler);
-				}
-			}
-			
-
+			var gridDiv = document.getElementById('grid');
+			var statusDiv = document.getElementById('status');
+			var clockDiv =  document.getElementById('clock');
+			var game = new GameController( gridDiv, statusDiv, clockDiv );
+			game.start();
 		</script>
 	</body>
 </html>
