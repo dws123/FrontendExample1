@@ -13,10 +13,10 @@
 				margin-right: auto;
 				background-color: yellow;
 				box-shadow: 10px 10px 5px #888888;
-				/*animation:spin 4s linear infinite;*/
+				
 			}
 
-			/*@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }*/
+			
 
 			table, td, th {
 				border: 1px solid black;
@@ -26,14 +26,34 @@
 				padding: 20px;
 			}
 
+			td.default {
+				background-color: yellow;
+				transition: background 3s linear 0s; 
+			}
+			
 			td.chosen {
 				background-color: green;
-				transition: background 0.4s linear 1s; 
+				transition: background 1s linear 0s; 
 			}
 
-			.selected {
+			td.selected {
 				background-color: blue;
 			}
+			
+			nav {
+				padding: 40px;
+			}
+			
+			div.rotated {
+				transform:rotate(90deg);
+				transition: transform 3s linear 0s;
+			}
+			
+			
+			/*div.rotated {
+				animation:spin 4s linear;
+			}
+			@keyframes spin { 100% { transform:rotate(90deg); } }*/
 		</style>
 
 		<script src="gridModel.js" type="text/javascript"></script>
@@ -49,7 +69,6 @@
 		
 		<nav>
 			<button onclick="start()">Start</button>
-			<button onclick="reveal()">Reveal</button>
 		</nav>
 		
 		<div id="grid" align="center">
@@ -63,6 +82,14 @@
 			function start() {
 
 				game.start();
+				
+				setTimeout(function(){ game.reveal( document ) },1000);
+				
+				setTimeout(function(){ game.hide( document ) },3000);
+				
+				setTimeout(function(){ document.getElementById("grid").className = "rotated"; },3000);
+				
+				
 
 				var tbl = document.getElementById("grid").getElementsByTagName("table")[0];
 				
@@ -83,9 +110,6 @@
 				}
 			}
 			
-			function reveal(){
-				game.reveal( document );
-			}
 
 		</script>
 	</body>

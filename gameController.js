@@ -5,10 +5,10 @@
 
 function GameController( displayDiv ){
 	
-	this.rows=4;
-	this.cols=4;
+	this.rows=3;
+	this.cols=3;
 	this.grid = new GridModel( this.rows, this.cols );
-	this.grid.setup( 4 );
+	this.grid.setup( 3 );
 	this.gameView = new GameView( displayDiv );
 
 }
@@ -25,6 +25,10 @@ GameController.prototype.start = function(){
 };
 
 GameController.prototype.reveal = function( document ){
-	this.gameView.reveal( document, this.grid );
+	this.gameView.toggleChosen( document, this.grid, true );
+};
+
+GameController.prototype.hide = function( document ){
+	this.gameView.toggleChosen( document, this.grid, false );
 };
 
