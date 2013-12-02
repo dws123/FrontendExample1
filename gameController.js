@@ -11,9 +11,7 @@ function GameController(gridDiv, statusDiv, clockDiv) {
 	this.secondsRemaining=8;
 	this.levelsWon=0;
 	
-	this.grid={};
-	
-	
+	this.grid={};//instance of GridModel, set in runNextLevel()
 
 	this.intervalTimer={};
 	this.gridClickHandler={};
@@ -57,6 +55,7 @@ GameController.prototype.toggleChosen = function(show) {
 };
 
 GameController.prototype.onLevelResult = function() {
+	
 	clearInterval(this.intervalVar);
 	this.levelOver = true;
 
@@ -82,7 +81,9 @@ GameController.prototype.onLevelResult = function() {
 			//ran out of time
 			game.playSound("sounds/TimeBombShort-SoundBible.com-1562499525.mp3");
 		}
-		else { //guessed wrong
+		else { 
+			//guessed wrong
+			//play sound after a delay
 			setTimeout(function() {
 				var rnd = Math.floor((Math.random() *2) +1); 
 				if( rnd==2)
@@ -115,7 +116,21 @@ GameController.prototype.runNextLevel = function() {
 };
 
 GameController.prototype.startLevel = function(game) {
+	
+	//add click handler to grid
+	this.gridClickHandler = function(e) {
+		var cellElement = e.target || window.event.srcElement;		
+		game.makeGuess(cellElement);
+	};
+	
+	var tbl = document.getElementById("grid").getElementsByTagName("table")[0];
+	if (tbl.addEventListener) {
+		tbl.addEventListener("click", this.gridClickHandler, false);
+	} else if (tbl.attachEvent) {
+		tbl.attachEvent("onclick", this.gridClickHandler);
+	}
 
+	//start timers to control game flow
 	var totalSetupTime = game.levelSetupTime * 1000;
 
 	var delayToShowChosen = totalSetupTime * 0.3;
@@ -145,27 +160,13 @@ GameController.prototype.startGameTimer = function(game) {
 
 	game.levelOver = false;
 
-	game.gridClickHandler = function(e) {
-
-		var cellElement = e.target || window.event.srcElement;		
-		game.makeGuess(cellElement);
-
-	};
-
-	var tbl = document.getElementById("grid").getElementsByTagName("table")[0];
-	if (tbl.addEventListener) {
-		tbl.addEventListener("click", game.gridClickHandler, false);
-	} else if (tbl.attachEvent) {
-		tbl.attachEvent("onclick", game.gridClickHandler);
-	}
-
 	game.statusDiv.innerHTML = "Now, click on the chosen cells. GO!";
 	game.statusDiv.style.visibility = "visible";
 
 	game.intervalVar = setInterval(function() {
 
+		game.playSound( "sounds/tick.mp3");
 		game.clockDiv.innerHTML = game.secondsRemaining + " seconds left";
-
 		game.clockDiv.style.visibility = "visible";
 
 		if (game.secondsRemaining === 0) {
@@ -187,5 +188,4 @@ GameController.prototype.startGameTimer = function(game) {
 GameController.prototype.playSound = function( soundFile ) {
 	var snd = new Audio( soundFile ); // buffers automatically when created
 	snd.play();
-	//document.getElementById("dummy").innerHTML = "<embed src=\"" + soundfile + "\" hidden=\"true\" autostart=\"true\" loop=\"false\" />";
 };

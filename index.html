@@ -6,41 +6,68 @@
 		<title>Memory Grid Game</title>
 
 		<style>
-		
-			#menubar1 { padding: 24px; border:#999 1px dashed; } 
-			#menubar1 > a{ font-family:Arial, Helvetica, sans-serif; font-size:17px; 
-			background: #333; padding: 12px 24px; color:#999; margin-right: 10px; text-decoration:none; border-radius: 3px; 
-			transition: background 0.3s linear 0s, color 0.3s linear 0s; } div#menubar1 > a:hover{ background: #6F8A00; color:#FFF; }
-			#menubar1 > a:hover{ background: #6F8A00; color:#FFF; }
-		
+			#menubar1 {
+				padding: 24px;
+				border: #999 1px dashed;
+			}
+			#menubar1 > a {
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: 17px;
+				background: #333;
+				padding: 12px 24px;
+				color: #999;
+				margin-right: 10px;
+				text-decoration: none;
+				border-radius: 3px;
+				transition: background 0.3s linear 0s, color 0.3s linear 0s;
+			}
+			#menubar1 > a:hover {
+				background: #6F8A00;
+				color: #FFF;
+			}
+
+			body {
+				font-family: Arial;
+				font-size: 14px;
+				color: #464646;
+				background-color:#D1FFFF;
+			}
+			.boldtxt {
+				font-family: Arial;
+				font-size: 14px;
+				font-weight: bold;
+				color: #b22d00;
+			}
+
 			section, nav, h1 {
-				width:40%;
+				width: 40%;
 				margin: auto;
 			}
-			
+
 			#grid {
 				display: inline-block;
 				height: auto;
-				width:auto;
+				width: auto;
 				background-color: yellow;
 				box-shadow: 10px 10px 5px #888888;
 			}
-			
+
 			#status {
-				border-style:outset;
+				border-style: outset;
 				padding: 20px;
-				height:auto;
-				width:150px;
-				float:left;
+				height: auto;
+				width: 150px;
+				float: left;
 				visibility: hidden;
 			}
 			#clock {
-				font-size:40px;
-				border-style:outset;
+				color: black;
+				font-size: 40px;
+				border-style: outset;
 				padding: 20px;
-				height:auto;
-				width:auto;
-				float:left;
+				height: auto;
+				width: auto;
+				float: left;
 				background-color: green;
 				visibility: hidden;
 			}
@@ -83,7 +110,6 @@
 				transition: transform 0.5s linear 0s;
 			}
 
-
 			/*div.rotated {
 			 animation:spin 4s linear;
 			 }
@@ -96,31 +122,37 @@
 
 	</head>
 	<body>
-		<span id="dummy"></span>
-		
-		<br /><br /><br />
+		<br />
+		<br />
+		<br />
 		<h1>Memory Game</h1>
 		<br />
 		<section>
-		<p>Object of the game: Remember the chosen cells! You need to click them after the box is rotated.</p>
-		<p>Turn up the sound!</p>
+			<p>Object of the game: Remember the chosen cells! You need to click them after the box is rotated.</p>
+			<p class="boldtxt">Turn up the sound!</p>
 		</section>
-		
+
 		<br />
-		<nav id="menubar1">			
-			<a href="#" onclick="start()" >Restart</a>
+
+		<br />
+		<nav id="menubar1">
+			<a href="#" onclick="start()" >Restart Game</a>
 			<a href="#"onclick="purchase()">Purchase Full Game</a>
 			<a href="#">About Us</a><a href="#">Contact</a>
 		</nav>
-		
-		<br /><br /><br />
-		
+
+		<br />
+		<br />
+		<br />
+
 		<section>
-				<div id="grid"></div>
+			<div id="grid"></div>
 		</section>
-		
-		<br /><br /><br />
-		
+
+		<br />
+		<br />
+		<br />
+
 		<section>
 			<div >
 				<div id="status"></div>
@@ -128,19 +160,17 @@
 			</div>
 		</section>
 
-		<script>	
-		
-			purchase = function(){
-				alert( "Only $19.95 !!!");
-			};		
-		
+		<script>
+			purchase = function() {
+				alert("Only $19.95 !!!");
+			};
+
 			start = function() {
 				var gridDiv = document.getElementById('grid');
 				var statusDiv = document.getElementById('status');
-				var clockDiv =  document.getElementById('clock');
-				
+				var clockDiv = document.getElementById('clock');
 
-				var game = new GameController( gridDiv, statusDiv, clockDiv );
+				var game = new GameController(gridDiv, statusDiv, clockDiv);
 				game.start();
 			};
 			start();
