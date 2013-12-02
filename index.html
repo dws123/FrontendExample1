@@ -7,6 +7,12 @@
 
 		<style>
 		
+			#menubar1 { padding: 24px; border:#999 1px dashed; } 
+			#menubar1 > a{ font-family:Arial, Helvetica, sans-serif; font-size:17px; 
+			background: #333; padding: 12px 24px; color:#999; margin-right: 10px; text-decoration:none; border-radius: 3px; 
+			transition: background 0.3s linear 0s, color 0.3s linear 0s; } div#menubar1 > a:hover{ background: #6F8A00; color:#FFF; }
+			#menubar1 > a:hover{ background: #6F8A00; color:#FFF; }
+		
 			section, nav, h1 {
 				width:40%;
 				margin: auto;
@@ -57,8 +63,11 @@
 				transition: background 1s linear 0s;
 			}
 
-			td.selected {
+			td.guessedCorrect {
 				background-color: blue;
+			}
+			td.guessedWrong {
+				background-color: red;
 			}
 
 			nav {
@@ -87,19 +96,21 @@
 
 	</head>
 	<body>
+		<span id="dummy"></span>
 		
 		<br /><br /><br />
 		<h1>Memory Game</h1>
 		<br />
 		<section>
-		Object of the game: Remember the chosen cells! You need to click them after the box is rotated.
+		<p>Object of the game: Remember the chosen cells! You need to click them after the box is rotated.</p>
+		<p>Turn up the sound!</p>
 		</section>
 		
 		<br />
-		<nav>
-			<button onclick="start()">
-				Restart
-			</button>
+		<nav id="menubar1">			
+			<a href="#" onclick="start()" >Restart</a>
+			<a href="#"onclick="purchase()">Purchase Full Game</a>
+			<a href="#">About Us</a><a href="#">Contact</a>
 		</nav>
 		
 		<br /><br /><br />
@@ -116,10 +127,13 @@
 				<div id="clock"></div>
 			</div>
 		</section>
-		
-		
 
-		<script>
+		<script>	
+		
+			purchase = function(){
+				alert( "Only $19.95 !!!");
+			};		
+		
 			start = function() {
 				var gridDiv = document.getElementById('grid');
 				var statusDiv = document.getElementById('status');

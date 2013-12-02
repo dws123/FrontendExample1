@@ -23,10 +23,14 @@ function GridModel( rows, columns ){
 	};
 	
 	this.makeGuess = function( cellNum ){
-		if( cellNum in this.gameChosenCells )
+		if( cellNum in this.gameChosenCells ){
 			this.humanCorrectCount++;	
-		else
+			return true;
+		}
+		else{
 			this.humanIncorrectCount++;
+			return false;
+		}
 	};
 	
 	this.gameOver = function(){
