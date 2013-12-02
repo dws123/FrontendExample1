@@ -40,8 +40,13 @@
 				color: #b22d00;
 			}
 
-			section, nav, h1 {
+			section, h1 {
 				width: 40%;
+				margin: auto;
+			}
+			
+			nav {
+				width: 37%;
 				margin: auto;
 			}
 
@@ -54,6 +59,10 @@
 			}
 
 			#status {
+				font-family: Arial;
+				font-size: 14px;
+				color: black;
+				font-weight: bold;
 				border-style: outset;
 				padding: 20px;
 				height: auto;
@@ -70,6 +79,16 @@
 				width: auto;
 				float: left;
 				background-color: green;
+				visibility: hidden;
+			}
+			#levelCount {
+				color: black;
+				font-size: 18px;
+				border-style: outset;
+				padding: 20px;
+				height: auto;
+				width: auto;
+				float: left;
 				visibility: hidden;
 			}
 
@@ -109,8 +128,8 @@
 				transform: rotate(90deg);
 				-ms-transform:rotate(90deg); /* IE 9 */
 				-webkit-transform:rotate(90deg); /* Safari and Chrome */
-				transition: transform 3s linear 0s;
-				-webkit-transition:-webkit-transform 3s linear 0s;
+				transition: transform 2.5s linear 0s;
+				-webkit-transition:-webkit-transform 2.5s linear 0s;
 			}
 			div.norotate {
 				transform: rotate(0deg);
@@ -148,7 +167,8 @@
 		<nav id="menubar1">
 			<a href="#" onclick="start()" >Restart Game</a>
 			<a href="#"onclick="purchase()">Purchase Full Game</a>
-			<a href="#">About Us</a><a href="#">Contact</a>
+			<a href="#">About Us</a>
+			<a href="#">Contact</a>
 		</nav>
 
 		<br />
@@ -167,6 +187,7 @@
 			<div >
 				<div id="status"></div>
 				<div id="clock"></div>
+				<div id="levelCount"></div>
 			</div>
 		</section>
 
@@ -176,11 +197,7 @@
 			};
 
 			start = function() {
-				var gridDiv = document.getElementById('grid');
-				var statusDiv = document.getElementById('status');
-				var clockDiv = document.getElementById('clock');
-
-				var game = new GameController(gridDiv, statusDiv, clockDiv);
+				var game = new GameController();
 				game.start();
 			};
 			start();
