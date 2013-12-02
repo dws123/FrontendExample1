@@ -20,6 +20,7 @@
 				text-decoration: none;
 				border-radius: 3px;
 				transition: background 0.3s linear 0s, color 0.3s linear 0s;
+				-webkit-transition: background 0.3s linear 0s, color 0.3s linear 0s;
 			}
 			#menubar1 > a:hover {
 				background: #6F8A00;
@@ -83,11 +84,14 @@
 			td.default {
 				background-color: yellow;
 				transition: background 3s linear 0s;
+				-webkit-transition: background 3s linear 0s;
+				
 			}
 
 			td.chosen {
 				background-color: green;
 				transition: background 1s linear 0s;
+				-webkit-transition: background 1s linear 0s;
 			}
 
 			td.guessedCorrect {
@@ -103,11 +107,17 @@
 
 			div.rotated {
 				transform: rotate(90deg);
+				-ms-transform:rotate(90deg); /* IE 9 */
+				-webkit-transform:rotate(90deg); /* Safari and Chrome */
 				transition: transform 3s linear 0s;
+				-webkit-transition:-webkit-transform 3s linear 0s;
 			}
 			div.norotate {
 				transform: rotate(0deg);
+				-ms-transform:rotate(0deg); /* IE 9 */
+				-webkit-transform:rotate(0deg); /* Safari and Chrome */
 				transition: transform 0.5s linear 0s;
+				-webkit-transition:-webkit-transform 0.5s linear 0s;
 			}
 
 			/*div.rotated {
